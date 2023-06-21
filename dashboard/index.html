@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Serial Monitor Dashboard</title>
+    <style>
+        /* Tambahkan CSS sesuai kebutuhan Anda */
+        #console {
+            height: 300px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="console"></div>
+
+    <script>
+        const consoleElement = document.getElementById('console');
+        const socket = new WebSocket('ws://localhost:8080'); // Ganti URL dan port WebSocket dengan yang sesuai
+
+        // Mengatur tindakan saat terhubung ke server WebSocket
+        socket.onopen = function () {
+            console.log('WebSocket connection established.');
+        };
+
+        // Mengatur tindakan saat menerima pesan dari server WebSocket
+        socket.onmessage = function (event) {
+            const message = event.data;
+            consoleElement.innerHTML += message + '<br>';
+            consoleElement.scrollTop = consoleElement.scrollHeight;
+        };
+
+        // Mengatur tindakan saat koneksi WebSocket ditutup
+        socket.onclose = function () {
+            console.log('WebSocket connection closed.');
+        };
+    </script>
+</body>
+</html>
